@@ -8,19 +8,10 @@
   :root {
     --bg: #0f0f12;
     --surface: #1a1a24;
-    --card-bg: #252535;
     --border: #2e2e42;
     --text: #e0e0e8;
     --text-dim: #8888a0;
     --accent: #4fc3f7;
-    --accent-dark: #0288d1;
-    --s-tier: #ff4444;
-    --a-tier: #ff8c00;
-    --b-tier: #ffd700;
-    --c-tier: #4caf50;
-    --d-tier: #78909c;
-    --f-tier: #9e9e9e;
-    --unranked: #666;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -30,11 +21,11 @@
     min-height: 100vh;
     padding: 20px;
   }
-  .container { max-width: 1400px; margin: 0 auto; }
+  .container { max-width: 1200px; margin: 0 auto; }
   header {
     text-align: center;
-    padding: 24px 0 20px;
-    border-bottom: 2px solid var(--accent-dark);
+    padding: 32px 0 24px;
+    border-bottom: 2px solid #0288d1;
     margin-bottom: 28px;
   }
   header h1 {
@@ -47,174 +38,100 @@
   }
   header p {
     color: var(--text-dim);
-    margin-top: 6px;
+    margin-top: 8px;
     font-size: 0.95rem;
   }
-  .controls {
+  .tier-row {
     display: flex;
-    gap: 12px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .tier-label {
+    min-width: 52px;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
-  }
-  .controls input {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    width: 280px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .controls input:focus { border-color: var(--accent); }
-  .controls button {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.2s;
-  }
-  .controls button:hover {
-    background: var(--card-bg);
-    border-color: var(--accent);
-  }
-  .controls .stats {
-    color: var(--text-dim);
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-  }
-  .tier-section { margin-bottom: 8px; }
-  .tier-header {
-    display: flex;
-    align-items: center;
-    padding: 8px 16px;
-    border-radius: 8px 8px 0 0;
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    user-select: none;
-    gap: 10px;
-  }
-  .tier-header .count {
-    font-size: 0.75rem;
-    opacity: 0.7;
-    font-weight: 400;
-  }
-  .tier-header .toggle-icon {
-    font-size: 0.7rem;
-    transition: transform 0.2s;
-  }
-  .tier-header.collapsed .toggle-icon {
-    transform: rotate(-90deg);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 12px 8px;
+    flex-shrink: 0;
   }
   .tier-content {
+    flex: 1;
+    padding: 10px 14px;
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    padding: 10px 12px;
-    min-height: 52px;
-    border: 1px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    transition: background 0.15s;
-    margin-bottom: 0;
+    align-content: flex-start;
   }
-  .tier-content.drag-over {
-    background: rgba(79, 195, 247, 0.08);
-    border-color: var(--accent);
-  }
-  .tier-content.collapsed { display: none; }
-  .tier-header[data-tier="S"] { background: color-mix(in srgb, var(--s-tier) 25%, var(--surface)); }
-  .tier-header[data-tier="A"] { background: color-mix(in srgb, var(--a-tier) 20%, var(--surface)); }
-  .tier-header[data-tier="B"] { background: color-mix(in srgb, var(--b-tier) 18%, var(--surface)); }
-  .tier-header[data-tier="C"] { background: color-mix(in srgb, var(--c-tier) 18%, var(--surface)); }
-  .tier-header[data-tier="D"] { background: color-mix(in srgb, var(--d-tier) 18%, var(--surface)); }
-  .tier-header[data-tier="F"] { background: color-mix(in srgb, var(--f-tier) 15%, var(--surface)); }
-  .tier-label { width: 36px; text-align: center; }
-  .tier-header[data-tier="S"] .tier-label { color: var(--s-tier); }
-  .tier-header[data-tier="A"] .tier-label { color: var(--a-tier); }
-  .tier-header[data-tier="B"] .tier-label { color: var(--b-tier); }
-  .tier-header[data-tier="C"] .tier-label { color: var(--c-tier); }
-  .tier-header[data-tier="D"] .tier-label { color: var(--d-tier); }
-  .tier-header[data-tier="F"] .tier-label { color: var(--f-tier); }
+  .tier-row.S { --tier-color: #ff4444; }
+  .tier-row.A { --tier-color: #ff8c00; }
+  .tier-row.B { --tier-color: #ffd700; }
+  .tier-row.C { --tier-color: #4caf50; }
+  .tier-row.D { --tier-color: #78909c; }
+  .tier-row.F { --tier-color: #9e9e9e; }
+  .tier-row.S .tier-label { background: #b71c1c; color: #fff; }
+  .tier-row.A .tier-label { background: #bf360c; color: #fff; }
+  .tier-row.B .tier-label { background: #7c6a00; color: #fff; }
+  .tier-row.C .tier-label { background: #1b5e20; color: #fff; }
+  .tier-row.D .tier-label { background: #37474f; color: #fff; }
+  .tier-row.F .tier-label { background: #424242; color: #fff; }
+  .tier-row.S .tier-content { background: rgba(255, 68, 68, 0.08); }
+  .tier-row.A .tier-content { background: rgba(255, 140, 0, 0.07); }
+  .tier-row.B .tier-content { background: rgba(255, 215, 0, 0.06); }
+  .tier-row.C .tier-content { background: rgba(76, 175, 80, 0.06); }
+  .tier-row.D .tier-content { background: rgba(120, 144, 156, 0.06); }
+  .tier-row.F .tier-content { background: rgba(158, 158, 158, 0.04); }
   .recipe-card {
-    background: var(--card-bg);
+    background: #252535;
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 6px 14px;
-    font-size: 0.8rem;
-    cursor: grab;
-    user-select: none;
-    transition: all 0.15s;
+    border-radius: 5px;
+    padding: 5px 12px;
+    font-size: 0.78rem;
     white-space: nowrap;
     color: var(--text);
-    position: relative;
+    transition: border-color 0.15s;
+    cursor: default;
   }
+  .recipe-card.S-border { border-left: 3px solid #ff4444; }
+  .recipe-card.A-border { border-left: 3px solid #ff8c00; }
+  .recipe-card.B-border { border-left: 3px solid #ffd700; }
+  .recipe-card.C-border { border-left: 3px solid #4caf50; }
+  .recipe-card.D-border { border-left: 3px solid #78909c; }
+  .recipe-card.F-border { border-left: 3px solid #9e9e9e; }
   .recipe-card:hover {
     border-color: var(--accent);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    z-index: 2;
   }
-  .recipe-card:active { cursor: grabbing; }
-  .recipe-card.dragging {
-    opacity: 0.4;
-    transform: scale(0.95);
-  }
-  .recipe-card.hidden { display: none; }
-  .recipe-card .tooltip {
-    display: none;
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1a1a2e;
-    border: 1px solid var(--accent-dark);
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    z-index: 100;
-    color: var(--text-dim);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-    pointer-events: none;
-  }
-  .recipe-card:hover .tooltip { display: block; }
-  .empty-state {
-    color: var(--text-dim);
-    font-size: 0.8rem;
-    padding: 8px 12px;
-    font-style: italic;
-    opacity: 0.5;
-  }
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1a1a2e;
-    border: 1px solid var(--accent-dark);
+  .note {
+    margin-top: 28px;
+    padding: 16px 20px;
+    background: #1a1a24;
+    border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 10px 24px;
+    color: var(--text-dim);
     font-size: 0.85rem;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
+    line-height: 1.7;
   }
-  .toast.show { opacity: 1; }
+  .note strong { color: var(--accent); }
+  .note h3 { color: var(--text); margin: 12px 0 6px; font-size: 1rem; }
+  .note h3:first-child { margin-top: 0; }
+  .note ul { padding-left: 20px; margin: 4px 0; }
+  .note li { margin: 2px 0; }
+  .stats-bar {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    padding: 8px;
+    background: #1a1a24;
+    border-radius: 8px;
+  }
   @media (max-width: 768px) {
-    header h1 { font-size: 1.4rem; }
-    .recipe-card { font-size: 0.72rem; padding: 5px 10px; }
-    .controls input { width: 180px; }
-    .tier-header { font-size: 0.95rem; padding: 6px 12px; }
+    header h1 { font-size: 1.3rem; }
+    .tier-label { min-width: 40px; font-size: 1.2rem; padding: 10px 4px; }
+    .recipe-card { font-size: 0.7rem; padding: 4px 8px; }
     .tier-content { padding: 8px; gap: 4px; }
     .container { padding: 0; }
   }
@@ -224,341 +141,101 @@
 <div class="container">
   <header>
     <h1>⬡ SATISFACTORY ALTERNATE RECIPE TIERLIST</h1>
-    <p>Drag cards between tiers to customize. Search to filter. Click a tier header to collapse.</p>
+    <p>Every alternate recipe ranked by resource efficiency, production simplification, and long-term value.</p>
   </header>
-  <div class="controls">
-    <input type="text" id="search" placeholder="Search recipes..." autocomplete="off">
-    <button onclick="resetToDefault()">↺ Reset to Default</button>
-    <button onclick="exportTierlist()">📋 Export as Text</button>
-    <span class="stats" id="stats"></span>
+  <div class="stats-bar">
+    <strong>112 recipes</strong> &middot; S/A/B/C/D/F tiers &middot; Updated for Satisfactory 1.0
   </div>
-  <div id="tierlist"></div>
+  <div id="tierlist-root"></div>
+  <div class="note">
+    <h3>How to Use This Tierlist</h3>
+    <p>When a Hard Drive offers you a choice, pick the highest-tier recipe available. If both options are from the same tier, use these tiebreakers:</p>
+    <ul>
+      <li><strong>Early game (Tiers 0–3):</strong> Prioritize <em>Solid Steel Ingot</em>, <em>Cast Screw</em> or <em>Stitched Iron Plate</em>, <em>Coated Iron Plate</em>, <em>Steel Rod</em>, <em>Iron Wire</em></li>
+      <li><strong>Mid game (Tiers 4–6):</strong> <em>Copper Alloy Ingot</em>, <em>Heavy Encased Frame</em>, <em>Caterium Circuit Board</em>, <em>Fused Wire</em>, <em>Steel Screw</em></li>
+      <li><strong>Late game (Tiers 7–8):</strong> <em>Sloppy Alumina</em>, <em>Pure Aluminium Ingot</em>, <em>Crystal Computer</em>, <em>Diluted Fuel</em>, <em>Recycled Plastic/Rubber</em></li>
+      <li><strong>End game (Nuclear):</strong> <em>Uranium Fuel Unit</em>, <em>Infused Uranium Cell</em>, <em>Oil-Based Diamonds</em></li>
+    </ul>
+    <p style="margin-top:10px;">There are ~115 hard drives and ~106 alternate recipes on the map — you can unlock nearly everything eventually. Grab the S-tier recipes first, then fill in the rest.</p>
+  </div>
 </div>
-<div id="toast" class="toast"></div>
 <script>
-const DEFAULT_TIERS = {
+const TIERS = {
   S: [
-    { name: "Heavy Encased Frame", note: "−38% resources, greatly simplifies HMFs" },
-    { name: "Copper Alloy Ingot", note: "−23% buildings needed, massive copper throughput" },
-    { name: "Pure Aluminium Ingot", note: "−2.5% buildings, −2.1% resources for aluminium" },
-    { name: "Oil-Based Diamonds", note: "−75% diamond cost, game-changer" },
-    { name: "Dark Matter Trap", note: "−2.3% resources for dark matter" },
-    { name: "Heavy Flexible Frame", note: "−28% resources for HMFs" },
-    { name: "Sloppy Alumina", note: "Essential for scaling aluminium" },
-    { name: "Insulated Crystal Oscillator", note: "−34% resources, gates late production" },
-    { name: "Silicon Circuit Board", note: "−43% resources, highest throughput" },
-    { name: "Crystal Computer", note: "Removes circuit boards from computers" },
-    { name: "Heat-Fused Frame", note: "−8% for Fused Modular Frames" },
-    { name: "Uranium Fuel Unit", note: "−29% resources for nuclear" },
-    { name: "Caterium Circuit Board", note: "−53% resources, no copper sheets" }
+    "Heavy Encased Frame", "Copper Alloy Ingot", "Pure Aluminium Ingot",
+    "Oil-Based Diamonds", "Dark Matter Trap", "Heavy Flexible Frame",
+    "Sloppy Alumina", "Insulated Crystal Oscillator", "Silicon Circuit Board",
+    "Crystal Computer", "Heat-Fused Frame", "Uranium Fuel Unit",
+    "Caterium Circuit Board"
   ],
   A: [
-    { name: "Super-State Computer", note: "Best supercomputer recipe (−20%)" },
-    { name: "Turbo Diamonds", note: "−6% diamond cost" },
-    { name: "Caterium Computer", note: "Cheaper computers (−20%)" },
-    { name: "Electrode Aluminium Scrap", note: "−9.8% resources, simplifies aluminium" },
-    { name: "Diluted Fuel", note: "Backbone of efficient fuel power (2× output)" },
-    { name: "Turbo Pressure Motor", note: "Efficient turbo motors" },
-    { name: "Rubber Concrete", note: "−4% concrete resources" },
-    { name: "Plastic AI Limiter", note: "−35% for AI Limiters" },
-    { name: "Steel Screw", note: "260/min from 5 steel beams, replaces screw banks" },
-    { name: "Rigor Motor", note: "Clean motor recipe" },
-    { name: "Steel Rod", note: "48/min vs 15 — 3.2× output per constructor" },
-    { name: "Fine Concrete", note: "−3.8% concrete resources" },
-    { name: "Steeled Frame", note: "Best basic Modular Frame (−25%)" },
-    { name: "Aluminium Beam", note: "Better steel beams from aluminium" },
-    { name: "Aluminium Rod", note: "−46% rod cost" },
-    { name: "Turbo Electric Motor", note: "End-game motor efficiency" },
-    { name: "Electric Motor", note: "Slightly better than default" },
-    { name: "Wet Concrete", note: "Good concrete throughput boost" },
-    { name: "Automated Speed Wiring", note: "Simplifies automated wiring" },
-    { name: "Coke Steel Ingot", note: "Turns oil byproducts into steel (−25%)" },
-    { name: "Infused Uranium Cell", note: "−26% for nuclear cells" },
-    { name: "Silicon High-Speed Connector", note: "−34% for high-speed connectors" },
-    { name: "Radio Control System", note: "Better RCU production" },
-    { name: "Solid Steel Ingot", note: "60 steel/min vs 45 — 33% more" },
-    { name: "Heat Exchanger", note: "Better heat sinks" },
-    { name: "Recycled Plastic", note: "Oil loop efficiency" },
-    { name: "Coated Iron Plate", note: "3.75× output, −57% iron per plate" },
-    { name: "Adhered Iron Plate", note: "RIP with zero screws, −50% resources" },
-    { name: "Stitched Iron Plate", note: "RIP without screws (−31%)" }
+    "Super-State Computer", "Turbo Diamonds", "Caterium Computer",
+    "Electrode Aluminium Scrap", "Diluted Fuel", "Turbo Pressure Motor",
+    "Rubber Concrete", "Plastic AI Limiter", "Steel Screw", "Rigor Motor",
+    "Steel Rod", "Fine Concrete", "Steeled Frame", "Aluminium Beam",
+    "Aluminium Rod", "Turbo Electric Motor", "Electric Motor", "Wet Concrete",
+    "Automated Speed Wiring", "Coke Steel Ingot", "Infused Uranium Cell",
+    "Silicon High-Speed Connector", "Radio Control System", "Solid Steel Ingot",
+    "Heat Exchanger", "Recycled Plastic", "Coated Iron Plate",
+    "Adhered Iron Plate", "Stitched Iron Plate"
   ],
   B: [
-    { name: "Insulated Cable", note: "−32% cable cost" },
-    { name: "Coated Cable", note: "Saves copper on cable" },
-    { name: "Fused Wire", note: "−53% copper, 3× output" },
-    { name: "Plastic Smart Plating", note: "Space elevator part recipe" },
-    { name: "Copper Rotor", note: "Alternative rotor path" },
-    { name: "Steel Cast Plate", note: "−33% iron plate when steel flows" },
-    { name: "Nitro Rocket Fuel", note: "Best rocket fuel (late-game)" },
-    { name: "Steamed Copper Sheet", note: "Copper sheets from water" },
-    { name: "OC Supercomputer", note: "Supercomputer alternative" },
-    { name: "Steel Rotor", note: "Better rotors from steel" },
-    { name: "Tempered Caterium Ingot", note: "Caterium from petroleum coke" },
-    { name: "Cooling Device", note: "Heat sink alternative" },
-    { name: "Pure Quartz Crystal", note: "Quartz efficiency" },
-    { name: "Electromagnetic Connection Rod", note: "Control rods without AI limiters" },
-    { name: "Quickwire Cable", note: "Cable without wire" },
-    { name: "Caterium Wire", note: "Wire from caterium" },
-    { name: "Quickwire Stator", note: "Stator from quickwire" },
-    { name: "Bolted Frame", note: "Modular frame from screws" },
-    { name: "Bolted Iron Plate", note: "RIP from screws" },
-    { name: "Fine Black Powder", note: "Nobelisks" },
-    { name: "Heavy Oil Residue", note: "Enables the oil-to-fuel loop" },
-    { name: "Flexible Framework", note: "Versatile framework help" },
-    { name: "Turbo Heavy Fuel", note: "Turbofuel alternative" },
-    { name: "Cast Screw", note: "Skips rods, 50/min — great early game" },
-    { name: "Iron Alloy Ingot", note: "−33% iron ore (uses copper)" },
-    { name: "Polymer Resin", note: "Byproduct processing" },
-    { name: "Pure Iron Ingot", note: "−15% iron ore (uses water)" },
-    { name: "Leached Iron Ingot", note: "−30% iron (uses sulfuric acid)" },
-    { name: "Iron Wire", note: "Wire from iron when copper is far" },
-    { name: "Coated Iron Canister", note: "Canisters from plastic" }
+    "Insulated Cable", "Coated Cable", "Fused Wire", "Plastic Smart Plating",
+    "Copper Rotor", "Steel Cast Plate", "Nitro Rocket Fuel",
+    "Steamed Copper Sheet", "OC Supercomputer", "Steel Rotor",
+    "Tempered Caterium Ingot", "Cooling Device", "Pure Quartz Crystal",
+    "Electromagnetic Connection Rod", "Quickwire Cable", "Caterium Wire",
+    "Quickwire Stator", "Bolted Frame", "Bolted Iron Plate",
+    "Fine Black Powder", "Heavy Oil Residue", "Flexible Framework",
+    "Turbo Heavy Fuel", "Cast Screw", "Iron Alloy Ingot", "Polymer Resin",
+    "Pure Iron Ingot", "Leached Iron Ingot", "Iron Wire", "Coated Iron Canister"
   ],
   C: [
-    { name: "Classic Battery", note: "Not better than default" },
-    { name: "Steel Canister", note: "Heavy containers" },
-    { name: "Fused Quickwire", note: "+11% heavier but more throughput" },
-    { name: "Cheap Silica", note: "Saves quartz, costs other things" },
-    { name: "Molded Beam", note: "Steel beam from concrete" },
-    { name: "Alclad Casing", note: "Aluminium casing alternative" },
-    { name: "Basic Iron Ingot", note: "Uses limestone, not great" },
-    { name: "Distilled Silica", note: "Complex silica" },
-    { name: "Fused Quartz Crystal", note: "Quartz from caterium" },
-    { name: "Molded Steel Pipe", note: "Steel pipe from concrete" },
-    { name: "Leached Caterium Ingot", note: "Uses sulfuric acid" },
-    { name: "Turbo Blend Fuel", note: "Complex setup, dense turbofuel" },
-    { name: "Electrode Circuit Board", note: "Board from oil byproducts" },
-    { name: "Pure Caterium Ingot", note: "+33% more caterium ore used" },
-    { name: "Encased Industrial Pipe", note: "Decent early, overrated later" },
-    { name: "Recycled Rubber", note: "Only in rubber loops" },
-    { name: "Compacted Steel Ingot", note: "Needs compacted coal" },
-    { name: "Quartz Purification", note: "Not worth the water" },
-    { name: "Plutonium Fuel Unit", note: "Only for plutonium sink setups" },
-    { name: "Pink Diamonds", note: "Diamond alternative" },
-    { name: "Instant Plutonium Cell", note: "Only for plutonium power" },
-    { name: "Iron Pipe", note: "Pipe from iron — meme tier" }
+    "Classic Battery", "Steel Canister", "Fused Quickwire", "Cheap Silica",
+    "Molded Beam", "Alclad Casing", "Basic Iron Ingot", "Distilled Silica",
+    "Fused Quartz Crystal", "Molded Steel Pipe", "Leached Caterium Ingot",
+    "Turbo Blend Fuel", "Electrode Circuit Board", "Pure Caterium Ingot",
+    "Encased Industrial Pipe", "Recycled Rubber", "Compacted Steel Ingot",
+    "Quartz Purification", "Plutonium Fuel Unit", "Pink Diamonds",
+    "Instant Plutonium Cell", "Iron Pipe"
   ],
   D: [
-    { name: "Instant Scrap", note: "Worse aluminium scrap" },
-    { name: "Pure Copper Ingot", note: "+12.5% power, net loss" },
-    { name: "Fertile Uranium", note: "Makes nuclear worse, not better" },
-    { name: "Radio Connection Unit", note: "Makes RCUs more expensive" },
-    { name: "Cloudy Diamonds", note: "Resource hog" },
-    { name: "Dark-Ion Fuel", note: "Complex, negative savings" },
-    { name: "Dark Matter Crystallization", note: "Not worth it" },
-    { name: "Petroleum Diamonds", note: "Resource-heavy diamond recipe" },
-    { name: "Leached Copper Ingot", note: "Sulfuric acid waste" },
-    { name: "Tempered Copper Ingot", note: "Terrible efficiency" },
-    { name: "Automated Miner", note: "Portable miner automation — convenience only" },
-    { name: "Biocoal", note: "Just use coal nodes" },
-    { name: "Charcoal", note: "Just use coal nodes" }
+    "Instant Scrap", "Pure Copper Ingot", "Fertile Uranium",
+    "Radio Connection Unit", "Cloudy Diamonds", "Dark-Ion Fuel",
+    "Dark Matter Crystallization", "Petroleum Diamonds", "Leached Copper Ingot",
+    "Tempered Copper Ingot", "Automated Miner", "Biocoal", "Charcoal"
   ]
 };
-
-let tiers = JSON.parse(JSON.stringify(DEFAULT_TIERS));
-const tierOrder = ['S', 'A', 'B', 'C', 'D', 'F'];
-const tierNames = { S: 'S-Tier — Game Changing', A: 'A-Tier — Excellent', B: 'B-Tier — Solid & Situational', C: 'C-Tier — Meh', D: 'D-Tier — Avoid', F: 'F-Tier — Never Use' };
+const TIER_NAMES = {
+  S: "Game-Changing", A: "Excellent", B: "Solid & Situational",
+  C: "Meh", D: "Avoid", F: "Never Use"
+};
+const TIER_ORDER = ["S","A","B","C","D","F"];
 
 function render() {
-  const container = document.getElementById('tierlist');
-  container.innerHTML = '';
-  let total = 0;
-  tierOrder.forEach(letter => {
-    const items = tiers[letter] || [];
-    total += items.length;
-    const section = document.createElement('div');
-    section.className = 'tier-section';
-    section.dataset.tier = letter;
-    const header = document.createElement('div');
-    header.className = 'tier-header';
-    header.dataset.tier = letter;
-    header.onclick = function(e) {
-      if (e.target.closest('.recipe-card')) return;
-      this.classList.toggle('collapsed');
-      const content = this.nextElementSibling;
-      content.classList.toggle('collapsed');
-    };
-    header.innerHTML = `<span class="tier-label">${letter}</span> ${tierNames[letter]} <span class="count">(${items.length})</span> <span class="toggle-icon">▼</span>`;
+  const root = document.getElementById('tierlist-root');
+  TIER_ORDER.forEach(letter => {
+    const items = TIERS[letter] || [];
+    if (!items.length) return;
+    const row = document.createElement('div');
+    row.className = 'tier-row ' + letter;
+    const label = document.createElement('div');
+    label.className = 'tier-label';
+    label.textContent = letter;
     const content = document.createElement('div');
     content.className = 'tier-content';
-    content.dataset.tier = letter;
-    content.addEventListener('dragover', e => {
-      e.preventDefault();
-      content.classList.add('drag-over');
+    items.sort().forEach(name => {
+      const card = document.createElement('span');
+      card.className = 'recipe-card ' + letter + '-border';
+      card.textContent = name;
+      content.appendChild(card);
     });
-    content.addEventListener('dragleave', e => {
-      content.classList.remove('drag-over');
-    });
-    content.addEventListener('drop', e => {
-      e.preventDefault();
-      content.classList.remove('drag-over');
-      const name = e.dataTransfer.getData('text/plain');
-      if (!name) return;
-      moveRecipe(name, letter);
-    });
-    if (items.length === 0) {
-      const empty = document.createElement('span');
-      empty.className = 'empty-state';
-      empty.textContent = 'Drop recipes here';
-      content.appendChild(empty);
-    } else {
-      items.sort((a, b) => a.name.localeCompare(b.name));
-      items.forEach(recipe => {
-        const card = createCard(recipe, letter);
-        content.appendChild(card);
-      });
-    }
-    section.appendChild(header);
-    section.appendChild(content);
-    container.appendChild(section);
-  });
-  const search = document.getElementById('search').value.toLowerCase();
-  applySearch(search);
-  document.getElementById('stats').textContent = `${total} recipes`;
-}
-
-function createCard(recipe, tierLetter) {
-  const card = document.createElement('span');
-  card.className = 'recipe-card';
-  card.draggable = true;
-  card.dataset.name = recipe.name;
-  card.textContent = recipe.name;
-  
-  const tooltip = document.createElement('span');
-  tooltip.className = 'tooltip';
-  tooltip.textContent = recipe.note || '';
-  card.appendChild(tooltip);
-
-  card.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('text/plain', recipe.name);
-    e.dataTransfer.effectAllowed = 'move';
-    setTimeout(() => card.classList.add('dragging'), 0);
-  });
-  card.addEventListener('dragend', () => {
-    card.classList.remove('dragging');
-    document.querySelectorAll('.tier-content').forEach(el => el.classList.remove('drag-over'));
-  });
-  card.addEventListener('click', () => {
-    const currentTier = findTier(recipe.name);
-    if (!currentTier) return;
-    const idx = tierOrder.indexOf(currentTier);
-    if (idx === -1) return;
-    const nextTier = idx === 0 ? tierOrder[tierOrder.length - 1] : tierOrder[idx - 1];
-    moveRecipe(recipe.name, nextTier);
-  });
-  return card;
-}
-
-function findTier(name) {
-  for (const letter of tierOrder) {
-    if ((tiers[letter] || []).some(r => r.name === name)) return letter;
-  }
-  return null;
-}
-
-function moveRecipe(name, toTier) {
-  let recipe = null;
-  for (const letter of tierOrder) {
-    const arr = tiers[letter] || [];
-    const idx = arr.findIndex(r => r.name === name);
-    if (idx !== -1) {
-      recipe = arr.splice(idx, 1)[0];
-      break;
-    }
-  }
-  if (!recipe) return;
-  if (!tiers[toTier]) tiers[toTier] = [];
-  tiers[toTier].push(recipe);
-  render();
-  showToast(`Moved "${recipe.name}" to ${toTier}-Tier`);
-  saveState();
-}
-
-function applySearch(query) {
-  document.querySelectorAll('.recipe-card').forEach(card => {
-    const match = !query || card.dataset.name.toLowerCase().includes(query);
-    card.classList.toggle('hidden', !match);
-  });
-  document.querySelectorAll('.tier-content').forEach(el => {
-    const visible = el.querySelector('.recipe-card:not(.hidden)') || el.querySelector('.empty-state');
-    el.style.display = visible ? '' : 'none';
+    row.appendChild(label);
+    row.appendChild(content);
+    root.appendChild(row);
   });
 }
-
-function resetToDefault() {
-  tiers = JSON.parse(JSON.stringify(DEFAULT_TIERS));
-  render();
-  showToast('Reset to default tier ranking');
-  saveState();
-}
-
-function exportTierlist() {
-  let text = 'SATISFACTORY ALTERNATE RECIPE TIERLIST\n';
-  text += '=====================================\n\n';
-  tierOrder.forEach(letter => {
-    const items = tiers[letter] || [];
-    if (items.length === 0) return;
-    text += `${letter}-TIER — ${tierNames[letter].toUpperCase()}\n`;
-    text += '-------------------------------------\n';
-    items.sort((a, b) => a.name.localeCompare(b.name));
-    items.forEach(r => {
-      text += `  • ${r.name}`;
-      if (r.note) text += ` — ${r.note}`;
-      text += '\n';
-    });
-    text += '\n';
-  });
-  text += `Total: ${Object.values(tiers).reduce((s, a) => s + a.length, 0)} recipes\n`;
-  const blob = new Blob([text], { type: 'text/plain' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'satisfactory-tierlist.txt';
-  a.click();
-  URL.revokeObjectURL(blob);
-  showToast('Tierlist exported as text file');
-}
-
-function showToast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(el._timeout);
-  el._timeout = setTimeout(() => el.classList.remove('show'), 2000);
-}
-
-function saveState() {
-  try {
-    localStorage.setItem('satisfactory-tierlist', JSON.stringify(tiers));
-  } catch(e) {}
-}
-
-function loadState() {
-  try {
-    const saved = localStorage.getItem('satisfactory-tierlist');
-    if (saved) {
-      tiers = JSON.parse(saved);
-      return true;
-    }
-  } catch(e) {}
-  return false;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (!loadState()) {
-    tiers = JSON.parse(JSON.stringify(DEFAULT_TIERS));
-  }
-  render();
-  document.getElementById('search').addEventListener('input', e => {
-    applySearch(e.target.value.toLowerCase());
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      document.getElementById('search').value = '';
-      applySearch('');
-    }
-  });
-});
+render();
 </script>
 </body>
 </html>
