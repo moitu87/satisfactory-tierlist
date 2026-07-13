@@ -5,104 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Satisfactory Alternate Recipe Tierlist</title>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background:#0a0a0e; color:#e0e0ec;
-    padding:16px;
-  }
-  .wrap { max-width:860px; margin:0 auto; }
-  h1 {
-    text-align:center; font-size:1.4rem; font-weight:700;
-    padding:20px 0 12px;
-    border-bottom:2px solid #0288d1; margin-bottom:12px;
-    background:linear-gradient(135deg,#4fc3f7,#81d4fa);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  }
-  .sub {
-    text-align:center; color:#7878a0; font-size:0.8rem; margin-bottom:12px;
-  }
-  .row {
-    display:flex; gap:4px; margin-bottom:3px; border-radius:5px; overflow:hidden;
-  }
-  .lbl {
-    min-width:40px; display:flex; align-items:center; justify-content:center;
-    font-size:1.1rem; font-weight:800; flex-shrink:0;
-  }
+  body { font-family:'Segoe UI',system-ui,sans-serif; background:#0a0a0e; color:#e0e0ec; padding:16px; }
+  .wrap { max-width:880px; margin:0 auto; }
+  h1 { text-align:center; font-size:1.3rem; font-weight:700; padding:18px 0 10px; border-bottom:2px solid #0288d1; margin-bottom:8px; background:linear-gradient(135deg,#4fc3f7,#81d4fa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .bar { display:flex; gap:8px; justify-content:center; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
+  .bar button { background:#1c1c2a; border:1px solid #2a2a3e; color:#ccc; padding:5px 14px; border-radius:4px; cursor:pointer; font-size:0.78rem; transition:all 0.15s; }
+  .bar button:hover { border-color:#4fc3f7; color:#fff; }
+  .bar button.on { background:#4fc3f7; color:#000; border-color:#4fc3f7; font-weight:600; }
+  .bar .c { color:#7878a0; font-size:0.72rem; }
+  .row { display:flex; gap:3px; margin-bottom:2px; border-radius:5px; overflow:hidden; }
+  .lbl { min-width:36px; display:flex; align-items:center; justify-content:center; font-size:1rem; font-weight:800; flex-shrink:0; cursor:pointer; user-select:none; }
   .list { flex:1; display:flex; flex-direction:column; }
-  .item {
-    padding:5px 12px; cursor:pointer; font-size:0.8rem;
-    border-bottom:1px solid rgba(255,255,255,0.03);
-    transition:background 0.1s;
-    user-select:none;
-  }
-  .item:last-child { border-bottom:none; }
-  .item:hover { filter:brightness(1.3); }
-  .item .detail {
-    display:none; margin-top:4px; padding:6px 8px;
-    font-size:0.72rem; color:#aaa;
-    background:rgba(0,0,0,0.2); border-radius:4px;
-    line-height:1.4;
-  }
-  .item.open .detail { display:block; }
-  .item.open { background:rgba(255,255,255,0.04); }
-  .tag {
-    display:inline-block; padding:0 5px; border-radius:2px;
-    font-size:0.6rem; font-weight:600; text-transform:uppercase;
-    margin-right:3px;
-  }
-  .t-s{background:rgba(255,68,68,0.15);color:#ff6666}
-  .t-a{background:rgba(255,140,0,0.15);color:#ffa64d}
-  .t-b{background:rgba(255,215,0,0.12);color:#ffd700}
-  .t-c{background:rgba(76,175,80,0.12);color:#81c784}
-  .t-d{background:rgba(120,144,156,0.1);color:#90a4ae}
-  .g-save{background:rgba(76,175,80,0.12);color:#81c784}
-  .g-simplify{background:rgba(79,195,247,0.1);color:#4fc3f7}
-  .g-throughput{background:rgba(255,215,0,0.1);color:#ffd54f}
-  .s-e{background:rgba(255,140,0,0.1);color:#ffb74d}
-  .s-m{background:rgba(156,39,176,0.1);color:#ce93d8}
-  .s-l{background:rgba(33,150,243,0.1);color:#64b5f6}
-  .s-n{background:rgba(244,67,54,0.1);color:#ef9a9a}
-  .row.S .lbl{background:#b71c1c;color:#fff}
-  .row.S .list{background:rgba(255,68,68,0.06)}
-  .row.A .lbl{background:#bf360c;color:#fff}
-  .row.A .list{background:rgba(255,140,0,0.05)}
-  .row.B .lbl{background:#7c6a00;color:#fff}
-  .row.B .list{background:rgba(255,215,0,0.04)}
-  .row.C .lbl{background:#1b5e20;color:#fff}
-  .row.C .list{background:rgba(76,175,80,0.04)}
-  .row.D .lbl{background:#37474f;color:#fff}
-  .row.D .list{background:rgba(120,144,156,0.03)}
-  .guide {
-    margin-top:16px; padding:12px 16px;
-    background:#14141e; border:1px solid #2a2a3e;
-    border-radius:5px; color:#7878a0; font-size:0.78rem; line-height:1.5;
-  }
+  .it { padding:4px 10px; cursor:pointer; font-size:0.78rem; border-bottom:1px solid rgba(255,255,255,0.02); transition:background 0.1s; user-select:none; display:flex; align-items:center; gap:8px; }
+  .it:last-child { border-bottom:none; }
+  .it:hover { filter:brightness(1.25); }
+  .it .ck { display:none; width:14px; height:14px; border-radius:3px; border:2px solid #555; flex-shrink:0; align-items:center; justify-content:center; font-size:0.5rem; color:#0a0a0e; font-weight:700; }
+  .cmp .ck { display:flex; }
+  .it.sel .ck { background:#4fc3f7; border-color:#4fc3f7; }
+  .it .dtl { display:none; margin-top:3px; padding:5px 8px; font-size:0.7rem; color:#aaa; background:rgba(0,0,0,0.2); border-radius:3px; line-height:1.4; width:100%; }
+  .it.open .dtl { display:block; }
+  .it.open { background:rgba(255,255,255,0.04); }
+  .tag { display:inline-block; padding:0 5px; border-radius:2px; font-size:0.58rem; font-weight:600; text-transform:uppercase; margin-right:2px; }
+  .t-s{background:rgba(255,68,68,0.15);color:#ff6666} .t-a{background:rgba(255,140,0,0.15);color:#ffa64d} .t-b{background:rgba(255,215,0,0.12);color:#ffd700} .t-c{background:rgba(76,175,80,0.12);color:#81c784} .t-d{background:rgba(120,144,156,0.1);color:#90a4ae}
+  .g-save{background:rgba(76,175,80,0.12);color:#81c784} .g-simplify{background:rgba(79,195,247,0.1);color:#4fc3f7} .g-throughput{background:rgba(255,215,0,0.1);color:#ffd54f}
+  .s-e{background:rgba(255,140,0,0.1);color:#ffb74d} .s-m{background:rgba(156,39,176,0.1);color:#ce93d8} .s-l{background:rgba(33,150,243,0.1);color:#64b5f6} .s-n{background:rgba(244,67,54,0.1);color:#ef9a9a}
+  .row.S .lbl{background:#b71c1c;color:#fff} .row.S .list{background:rgba(255,68,68,0.06)}
+  .row.A .lbl{background:#bf360c;color:#fff} .row.A .list{background:rgba(255,140,0,0.05)}
+  .row.B .lbl{background:#7c6a00;color:#fff} .row.B .list{background:rgba(255,215,0,0.04)}
+  .row.C .lbl{background:#1b5e20;color:#fff} .row.C .list{background:rgba(76,175,80,0.04)}
+  .row.D .lbl{background:#37474f;color:#fff} .row.D .list{background:rgba(120,144,156,0.03)}
+  #cmp-panel { display:none; margin-top:10px; padding:12px; background:#14141e; border:1px solid #2a2a3e; border-radius:5px; }
+  #cmp-panel.show { display:block; }
+  #cmp-panel h3 { font-size:0.85rem; color:#4fc3f7; margin-bottom:8px; }
+  .cmp-grid { display:grid; gap:10px; }
+  .cmp-grid.c2 { grid-template-columns:1fr 1fr; }
+  .cmp-grid.c3 { grid-template-columns:1fr 1fr 1fr; }
+  .cmp-grid.c4 { grid-template-columns:1fr 1fr 1fr 1fr; }
+  .cmp-card { background:#1c1c2a; border:1px solid #2a2a3e; border-radius:4px; padding:10px; }
+  .cmp-card h4 { font-size:0.8rem; margin-bottom:4px; }
+  .cmp-card p { font-size:0.68rem; color:#aaa; line-height:1.5; }
+  .cmp-card .sc { font-size:1.1rem; font-weight:700; color:#e0e0ec; }
+  .guide { margin-top:12px; padding:10px 14px; background:#14141e; border:1px solid #2a2a3e; border-radius:5px; color:#7878a0; font-size:0.76rem; line-height:1.5; }
   .guide b { color:#bbb; }
-  .guide ul { padding-left:16px; }
-  .ft {
-    text-align:center; padding:14px 0 4px;
-    border-top:1px solid #14141e; margin-top:16px;
-    color:#444; font-size:0.7rem;
-  }
+  .ft { text-align:center; padding:12px 0 2px; border-top:1px solid #14141e; margin-top:12px; color:#444; font-size:0.68rem; }
   @media(max-width:600px){
-    h1{font-size:1.1rem}
-    .item{font-size:0.74rem;padding:4px 10px}
-    .item .detail{font-size:0.68rem}
-    .lbl{min-width:34px;font-size:0.95rem}
+    h1{font-size:1.05rem} .it{font-size:0.72rem;padding:3px 8px} .it .dtl{font-size:0.66rem} .lbl{min-width:30px;font-size:0.85rem}
+    .cmp-grid.c2,.cmp-grid.c3,.cmp-grid.c4{grid-template-columns:1fr}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>⬡ SATISFACTORY ALTERNATE RECIPES</h1>
-  <div class="sub">click any recipe for details</div>
+  <div class="bar">
+    <button id="cmp-btn" onclick="toggleCompare()">☐ Compare</button>
+    <button onclick="clearSel()">Clear</button>
+    <span class="c" id="sel-count">0 selected</span>
+  </div>
   <div id="root"></div>
+  <div id="cmp-panel"><h3>Compare</h3><div id="cmp-grid" class="cmp-grid"></div></div>
   <div class="guide">
-    <b>Priority by stage:</b><br>
+    <b>Quick priority:</b><br>
     <b>Early:</b> Solid Steel Ingot → screw fix (Cast Screw / Steel Rod / Adhered Iron Plate) → Coated Iron Plate<br>
     <b>Mid:</b> Copper Alloy Ingot → Heavy Encased Frame → Caterium Circuit Board → Fused Wire<br>
     <b>Late:</b> Sloppy Alumina → Pure Aluminium Ingot → Crystal Computer → Diluted Fuel → Recycled Plastic/Rubber<br>
@@ -112,7 +77,6 @@
 </div>
 <script>
 const D = [
-  // S
   {t:"S",n:"Heavy Encased Frame",i:"Heavy Modular Frame",b:"−38% resources, removes screws/concrete",g:["save","simplify"],s:"mid",sc:98},
   {t:"S",n:"Copper Alloy Ingot",i:"Copper Ingot",b:"−23% buildings, massive copper from iron",g:["save","throughput"],s:"mid",sc:92},
   {t:"S",n:"Pure Aluminium Ingot",i:"Aluminium Ingot",b:"−2.5% buildings, −2.1% resources",g:["save"],s:"late",sc:92},
@@ -126,7 +90,6 @@ const D = [
   {t:"S",n:"Heat-Fused Frame",i:"Fused Modular Frame",b:"−8% resources, simpler chain",g:["save","simplify"],s:"late",sc:79},
   {t:"S",n:"Uranium Fuel Unit",i:"Uranium Fuel Rod",b:"−29% resources, best nuclear alt",g:["save"],s:"end",sc:78},
   {t:"S",n:"Caterium Circuit Board",i:"Circuit Board",b:"−53% resources, no copper sheets",g:["save","simplify"],s:"mid",sc:77},
-  // A
   {t:"A",n:"Super-State Computer",i:"Supercomputer",b:"−20% resources, best supercomputer alt",g:["save"],s:"late",sc:73},
   {t:"A",n:"Turbo Diamonds",i:"Diamond",b:"−6% diamond cost, coal-based",g:["save"],s:"end",sc:72},
   {t:"A",n:"Caterium Computer",i:"Computer",b:"−20% resources, caterium variant",g:["save"],s:"mid",sc:71},
@@ -156,7 +119,6 @@ const D = [
   {t:"A",n:"Coated Iron Plate",i:"Iron Plate",b:"3.75× output, −57% iron per plate",g:["throughput","save"],s:"early",sc:56},
   {t:"A",n:"Adhered Iron Plate",i:"Reinforced Iron Plate",b:"Zero screws, −50% resources",g:["simplify","save"],s:"early",sc:56},
   {t:"A",n:"Stitched Iron Plate",i:"Reinforced Iron Plate",b:"No screws, wire-based, −31%",g:["simplify","save"],s:"early",sc:54},
-  // B
   {t:"B",n:"Insulated Cable",i:"Cable",b:"−32% cable cost, rubber-based",g:["save"],s:"mid",sc:54},
   {t:"B",n:"Coated Cable",i:"Cable",b:"Saves copper, uses plastic",g:["save"],s:"mid",sc:53},
   {t:"B",n:"Fused Wire",i:"Wire",b:"−53% copper, 3× output with caterium",g:["throughput","save"],s:"mid",sc:53},
@@ -187,7 +149,6 @@ const D = [
   {t:"B",n:"Leached Iron Ingot",i:"Iron Ingot",b:"−30% iron ore (uses sulfuric acid)",g:["save"],s:"late",sc:50},
   {t:"B",n:"Iron Wire",i:"Wire",b:"Wire from iron when copper is scarce",g:["save"],s:"early",sc:50},
   {t:"B",n:"Coated Iron Canister",i:"Empty Canister",b:"Canisters from plastic, saves steel",g:["save"],s:"mid",sc:49},
-  // C
   {t:"C",n:"Classic Battery",i:"Battery",b:"Not better than standard",g:[],s:"late",sc:49},
   {t:"C",n:"Steel Canister",i:"Empty Canister",b:"Heavy, uses steel instead of plastic",g:[],s:"mid",sc:49},
   {t:"C",n:"Fused Quickwire",i:"Quickwire",b:"+11% heavier but better throughput",g:["throughput"],s:"mid",sc:49},
@@ -210,7 +171,6 @@ const D = [
   {t:"C",n:"Pink Diamonds",i:"Diamond",b:"−35%, OK alt if oil is tight",g:["save"],s:"end",sc:36},
   {t:"C",n:"Instant Plutonium Cell",i:"Encased Plutonium Cell",b:"Only for plutonium power",g:[],s:"end",sc:35},
   {t:"C",n:"Iron Pipe",i:"Steel Pipe",b:"Pipe from iron — memey but works",g:[],s:"early",sc:33},
-  // D
   {t:"D",n:"Instant Scrap",i:"Aluminium Scrap",b:"Worse scrap, +buildings, complex",g:[],s:"late",sc:23},
   {t:"D",n:"Pure Copper Ingot",i:"Copper Ingot",b:"+12.5% power, +23% buildings — loss",g:[],s:"mid",sc:20},
   {t:"D",n:"Fertile Uranium",i:"Non-fissile Uranium",b:"Makes nuclear worse, needs extra U",g:[],s:"end",sc:13},
@@ -227,11 +187,20 @@ const D = [
 ];
 
 const ORD = ["S","A","B","C","D"];
-const NM = {S:"Game-Changing",A:"Excellent",B:"Solid",C:"Meh",D:"Avoid"};
 const STG = {early:"Early",mid:"Mid",late:"Late",end:"End"};
+let cmpOn = false;
+let sel = {};
+const STORE = 'sf-tierlist-sel';
 
 (function() {
+  try { const s = localStorage.getItem(STORE); if (s) sel = JSON.parse(s); } catch(e) {}
+  render();
+  updatePanel();
+})();
+
+function render() {
   const root = document.getElementById('root');
+  root.innerHTML = '';
   ORD.forEach(t => {
     const items = D.filter(r => r.t === t);
     if (!items.length) return;
@@ -242,19 +211,36 @@ const STG = {early:"Early",mid:"Mid",late:"Late",end:"End"};
     lbl.textContent = t;
     const list = document.createElement('div');
     list.className = 'list';
+    if (cmpOn) list.classList.add('cmp');
     items.sort((a,b) => a.n.localeCompare(b.n));
     items.forEach(r => {
       const el = document.createElement('div');
-      el.className = 'item';
-      el.innerHTML = '<span style="font-weight:500">' + r.n + '</span><span class="detail" id="d"></span>';
-      const dd = el.querySelector('.detail');
-      const sc = r.sc ? 'Score <b>' + r.sc + '</b> | ' : '';
+      el.className = 'it';
+      if (sel[r.n]) el.classList.add('sel');
+      const ck = document.createElement('span');
+      ck.className = 'ck';
+      ck.textContent = '✓';
+      const nm = document.createElement('span');
+      nm.style.fontWeight = '500';
+      nm.textContent = r.n;
+      const dt = document.createElement('div');
+      dt.className = 'dtl';
+      const sc = r.sc ? 'Score <b>'+r.sc+'</b> | ' : '';
       const tg = (r.g||[]).map(g => '<span class="tag g-'+g+'">'+g+'</span>').join(' ');
       const st = r.s ? '<span class="tag s-'+r.s+'">'+STG[r.s]+'</span>' : '';
-      dd.innerHTML = 'Produces: <b>' + r.i + '</b><br>' + r.b + '<br>' + sc + tg + ' ' + st;
+      dt.innerHTML = 'Produces: <b>'+r.i+'</b><br>'+r.b+'<br>'+sc+tg+' '+st;
+      el.appendChild(ck);
+      el.appendChild(nm);
+      el.appendChild(dt);
       el.addEventListener('click', function(e) {
-        e.stopPropagation();
-        this.classList.toggle('open');
+        if (cmpOn) {
+          if (sel[r.n]) { delete sel[r.n]; this.classList.remove('sel'); }
+          else { sel[r.n] = true; this.classList.add('sel'); }
+          localStorage.setItem(STORE, JSON.stringify(sel));
+          updatePanel();
+        } else {
+          this.classList.toggle('open');
+        }
       });
       list.appendChild(el);
     });
@@ -262,7 +248,50 @@ const STG = {early:"Early",mid:"Mid",late:"Late",end:"End"};
     row.appendChild(list);
     root.appendChild(row);
   });
-})();
+  document.getElementById('sel-count').textContent = Object.keys(sel).length + ' selected';
+}
+
+function toggleCompare() {
+  cmpOn = !cmpOn;
+  document.getElementById('cmp-btn').textContent = cmpOn ? '☑ Compare' : '☐ Compare';
+  document.getElementById('cmp-btn').classList.toggle('on', cmpOn);
+  render();
+  if (!cmpOn) { document.getElementById('cmp-panel').classList.remove('show'); }
+  else { updatePanel(); }
+}
+
+function clearSel() {
+  sel = {};
+  localStorage.setItem(STORE, JSON.stringify(sel));
+  render();
+  updatePanel();
+}
+
+function updatePanel() {
+  const panel = document.getElementById('cmp-panel');
+  const grid = document.getElementById('cmp-grid');
+  const names = Object.keys(sel);
+  if (!cmpOn || names.length === 0) { panel.classList.remove('show'); return; }
+  panel.classList.add('show');
+  const n = Math.min(names.length, 4);
+  grid.className = 'cmp-grid c'+n;
+  grid.innerHTML = '';
+  names.slice(0, 4).forEach(name => {
+    const r = D.find(d => d.n === name);
+    if (!r) return;
+    const tg = (r.g||[]).map(g => '<span class="tag g-'+g+'">'+g+'</span>').join(' ');
+    const st = r.s ? '<span class="tag s-'+r.s+'">'+STG[r.s]+'</span>' : '';
+    const card = document.createElement('div');
+    card.className = 'cmp-card';
+    const tierClass = 't-'+r.t.toLowerCase();
+    card.innerHTML = '<h4><span class="tag '+tierClass+'" style="margin-right:4px">'+r.t+'</span>'+r.n+'</h4>' +
+      '<p class="sc">'+r.sc+'</p>' +
+      '<p>Produces: <b>'+r.i+'</b></p>' +
+      '<p>'+r.b+'</p>' +
+      '<p>'+tg+' '+st+'</p>';
+    grid.appendChild(card);
+  });
+}
 </script>
 </body>
 </html>
