@@ -21,6 +21,11 @@
   .it { padding:4px 10px; cursor:pointer; font-size:0.78rem; border-bottom:1px solid rgba(255,255,255,0.02); transition:background 0.1s; user-select:none; display:flex; align-items:center; gap:8px; }
   .it:last-child { border-bottom:none; }
   .it:hover { filter:brightness(1.25); }
+  .sr { width:100%; max-width:300px; background:#1c1c2a; border:1px solid #2a2a3e; color:#e0e0ec; padding:5px 10px; border-radius:4px; font-size:0.78rem; outline:none; transition:border-color 0.15s; }
+  .sr:focus { border-color:#4fc3f7; }
+  .sr::placeholder { color:#555; }
+  .it.hide { display:none; }
+  .it .hl { background:#ffd700; color:#000; border-radius:2px; padding:0 2px; }
   .it .ck { display:none; width:14px; height:14px; border-radius:3px; border:2px solid #555; flex-shrink:0; align-items:center; justify-content:center; font-size:0.5rem; color:#0a0a0e; font-weight:700; }
   .cmp .ck { display:flex; }
   .it.sel .ck { background:#4fc3f7; border-color:#4fc3f7; }
@@ -60,6 +65,7 @@
 <div class="wrap">
   <h1>⬡ SATISFACTORY ALTERNATE RECIPES</h1>
   <div class="bar">
+    <input class="sr" id="sr" type="text" placeholder="Search recipes..." oninput="search(this.value)">
     <button id="cmp-btn" onclick="toggleCompare()">☐ Compare</button>
     <button onclick="clearSel()">Clear</button>
     <span class="c" id="sel-count">0 selected</span>
@@ -255,7 +261,9 @@ function toggleCompare() {
   cmpOn = !cmpOn;
   document.getElementById('cmp-btn').textContent = cmpOn ? '☑ Compare' : '☐ Compare';
   document.getElementById('cmp-btn').classList.toggle('on', cmpOn);
+  const q = document.getElementById('sr').value;
   render();
+  if (q) search(q);
   if (!cmpOn) { document.getElementById('cmp-panel').classList.remove('show'); }
   else { updatePanel(); }
 }
@@ -263,7 +271,9 @@ function toggleCompare() {
 function clearSel() {
   sel = {};
   localStorage.setItem(STORE, JSON.stringify(sel));
+  const q = document.getElementById('sr').value;
   render();
+  if (q) search(q);
   updatePanel();
 }
 
@@ -291,6 +301,39 @@ function updatePanel() {
       '<p>'+tg+' '+st+'</p>';
     grid.appendChild(card);
   });
+}
+
+function search(q) {
+  q = q.toLowerCase().trim();
+  const items = document.querySelectorAll('.it');
+  let count = 0;
+  items.forEach(el => {
+    const name = el.querySelector('span:nth-child(2)');
+    const dtl = el.querySelector('.dtl');
+    const txt = (el.textContent || '').toLowerCase();
+    if (!q) {
+      el.classList.remove('hide');
+      el.classList.remove('open');
+      if (name) name.innerHTML = name.textContent;
+      count++;
+      return;
+    }
+    const match = txt.includes(q);
+    el.classList.toggle('hide', !match);
+    if (match) {
+      count++;
+      el.classList.add('open');
+      if (name) {
+        const re = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')', 'gi');
+        name.innerHTML = name.textContent.replace(re, '<span class="hl">$1</span>');
+      }
+    } else {
+      if (name) name.innerHTML = name.textContent;
+    }
+  });
+  const c = document.getElementById('sel-count');
+  if (q) c.textContent = count+' found';
+  else c.textContent = Object.keys(sel).length+' selected';
 }
 </script>
 </body>
