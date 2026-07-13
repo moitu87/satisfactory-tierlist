@@ -9,12 +9,20 @@
 <meta http-equiv="Expires" content="0">
 <style>
   :root {
-    --bg: #0f0f12;
-    --surface: #1a1a24;
-    --border: #2e2e42;
-    --text: #e0e0e8;
-    --text-dim: #8888a0;
+    --bg: #0a0a0e;
+    --surface: #14141e;
+    --card-bg: #1c1c2a;
+    --card-hover: #242438;
+    --border: #2a2a3e;
+    --text: #e0e0ec;
+    --text-dim: #7878a0;
     --accent: #4fc3f7;
+    --s: #ff4444; --s-bg: rgba(255,68,68,0.08);
+    --a: #ff8c00; --a-bg: rgba(255,140,0,0.07);
+    --b: #ffd700; --b-bg: rgba(255,215,0,0.06);
+    --c: #4caf50; --c-bg: rgba(76,175,80,0.06);
+    --d: #78909c; --d-bg: rgba(120,144,156,0.05);
+    --f: #666;    --f-bg: rgba(100,100,100,0.04);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -24,12 +32,12 @@
     min-height: 100vh;
     padding: 20px;
   }
-  .container { max-width: 1200px; margin: 0 auto; }
+  .container { max-width: 1100px; margin: 0 auto; }
   header {
     text-align: center;
-    padding: 32px 0 24px;
+    padding: 32px 0 20px;
     border-bottom: 2px solid #0288d1;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
   header h1 {
     font-size: 2rem;
@@ -41,100 +49,114 @@
   }
   header p {
     color: var(--text-dim);
-    margin-top: 8px;
-    font-size: 0.95rem;
+    margin-top: 6px;
+    font-size: 0.9rem;
   }
-  .tier-row {
+  .legend {
     display: flex;
-    margin-bottom: 4px;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .tier-label {
-    min-width: 52px;
-    display: flex;
-    align-items: center;
+    gap: 16px;
     justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    padding: 12px 8px;
-    flex-shrink: 0;
-  }
-  .tier-content {
-    flex: 1;
-    padding: 10px 14px;
-    display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    align-content: flex-start;
-  }
-  .tier-row.S { --tier-color: #ff4444; }
-  .tier-row.A { --tier-color: #ff8c00; }
-  .tier-row.B { --tier-color: #ffd700; }
-  .tier-row.C { --tier-color: #4caf50; }
-  .tier-row.D { --tier-color: #78909c; }
-  .tier-row.F { --tier-color: #9e9e9e; }
-  .tier-row.S .tier-label { background: #b71c1c; color: #fff; }
-  .tier-row.A .tier-label { background: #bf360c; color: #fff; }
-  .tier-row.B .tier-label { background: #7c6a00; color: #fff; }
-  .tier-row.C .tier-label { background: #1b5e20; color: #fff; }
-  .tier-row.D .tier-label { background: #37474f; color: #fff; }
-  .tier-row.F .tier-label { background: #424242; color: #fff; }
-  .tier-row.S .tier-content { background: rgba(255, 68, 68, 0.08); }
-  .tier-row.A .tier-content { background: rgba(255, 140, 0, 0.07); }
-  .tier-row.B .tier-content { background: rgba(255, 215, 0, 0.06); }
-  .tier-row.C .tier-content { background: rgba(76, 175, 80, 0.06); }
-  .tier-row.D .tier-content { background: rgba(120, 144, 156, 0.06); }
-  .tier-row.F .tier-content { background: rgba(158, 158, 158, 0.04); }
-  .recipe-card {
-    background: #252535;
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 5px 12px;
-    font-size: 0.78rem;
-    white-space: nowrap;
-    color: var(--text);
-    transition: border-color 0.15s;
-    cursor: default;
-  }
-  .recipe-card.S-border { border-left: 3px solid #ff4444; }
-  .recipe-card.A-border { border-left: 3px solid #ff8c00; }
-  .recipe-card.B-border { border-left: 3px solid #ffd700; }
-  .recipe-card.C-border { border-left: 3px solid #4caf50; }
-  .recipe-card.D-border { border-left: 3px solid #78909c; }
-  .recipe-card.F-border { border-left: 3px solid #9e9e9e; }
-
-  .note {
-    margin-top: 28px;
-    padding: 16px 20px;
-    background: #1a1a24;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text-dim);
-    font-size: 0.85rem;
-    line-height: 1.7;
-  }
-  .note strong { color: var(--accent); }
-  .note h3 { color: var(--text); margin: 12px 0 6px; font-size: 1rem; }
-  .note h3:first-child { margin-top: 0; }
-  .note ul { padding-left: 20px; margin: 4px 0; }
-  .note li { margin: 2px 0; }
-  .stats-bar {
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 0.85rem;
     margin-bottom: 20px;
-    padding: 8px;
-    background: #1a1a24;
-    border-radius: 8px;
+    font-size: 0.78rem;
+    color: var(--text-dim);
   }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+  .dot-s { background: var(--s); } .dot-a { background: var(--a); }
+  .dot-b { background: var(--b); } .dot-c { background: var(--c); }
+  .dot-d { background: var(--d); } .dot-f { background: var(--f); }
+
+  .tier-block { margin-bottom: 3px; border-radius: 8px; overflow: hidden; }
+  .tier-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 16px; font-weight: 700; font-size: 1rem; letter-spacing: 0.3px;
+  }
+  .tier-header .label {
+    width: 32px; height: 32px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 800; flex-shrink: 0;
+  }
+  .tier-header .tier-desc { font-weight: 400; font-size: 0.8rem; opacity: 0.7; }
+  .tier-header .count { margin-left: auto; font-size: 0.75rem; opacity: 0.5; font-weight: 400; }
+  .tier-body { padding: 8px 12px 10px; }
+  .tier-block.S .tier-header { background: linear-gradient(135deg, #5c0e0e, #3a0808); }
+  .tier-block.S .label { background: var(--s); color: #fff; }
+  .tier-block.S .tier-body { background: var(--s-bg); }
+  .tier-block.A .tier-header { background: linear-gradient(135deg, #5c2e00, #3a1d00); }
+  .tier-block.A .label { background: var(--a); color: #fff; }
+  .tier-block.A .tier-body { background: var(--a-bg); }
+  .tier-block.B .tier-header { background: linear-gradient(135deg, #5c5000, #3a3300); }
+  .tier-block.B .label { background: var(--b); color: #1a1a00; }
+  .tier-block.B .tier-body { background: var(--b-bg); }
+  .tier-block.C .tier-header { background: linear-gradient(135deg, #0d3d10, #072409); }
+  .tier-block.C .label { background: var(--c); color: #fff; }
+  .tier-block.C .tier-body { background: var(--c-bg); }
+  .tier-block.D .tier-header { background: linear-gradient(135deg, #1c2a30, #0e1a1e); }
+  .tier-block.D .label { background: var(--d); color: #fff; }
+  .tier-block.D .tier-body { background: var(--d-bg); }
+
+  .recipe-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 6px 10px; border-radius: 5px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: background 0.15s;
+  }
+  .recipe-row:last-child { border-bottom: none; }
+  .recipe-row:hover { background: rgba(255,255,255,0.03); }
+  .recipe-name {
+    font-size: 0.82rem; font-weight: 500;
+    min-width: 210px; max-width: 210px; flex-shrink: 0;
+    padding: 2px 0;
+  }
+  .recipe-details {
+    display: flex; flex-wrap: wrap; gap: 3px 12px;
+    font-size: 0.72rem; color: var(--text-dim); flex: 1;
+  }
+  .recipe-details .tag {
+    display: inline-block;
+    padding: 1px 8px; border-radius: 3px;
+    font-size: 0.65rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .tag-save { background: rgba(76,175,80,0.15); color: #81c784; }
+  .tag-simplify { background: rgba(79,195,247,0.12); color: #4fc3f7; }
+  .tag-throughput { background: rgba(255,215,0,0.12); color: #ffd54f; }
+  .tag-early { background: rgba(255,140,0,0.12); color: #ffb74d; }
+  .tag-mid { background: rgba(156,39,176,0.12); color: #ce93d8; }
+  .tag-late { background: rgba(33,150,243,0.12); color: #64b5f6; }
+  .tag-end { background: rgba(244,67,54,0.12); color: #ef9a9a; }
+
+  .recipe-details .detail { white-space: nowrap; display: flex; align-items: center; gap: 3px; }
+  .recipe-details .detail .icon { opacity: 0.5; }
+  .recipe-details .produces { color: #aaa; }
+
+  .guide {
+    margin-top: 24px; padding: 18px 22px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text-dim);
+    font-size: 0.85rem; line-height: 1.7;
+  }
+  .guide h3 { color: var(--accent); font-size: 0.95rem; margin-bottom: 8px; }
+  .guide strong { color: #ccc; }
+  .guide ul { padding-left: 20px; }
+  .guide li { margin: 1px 0; }
+
+  .footer {
+    text-align: center; padding: 20px 0 8px;
+    border-top: 1px solid var(--surface); margin-top: 24px;
+    color: #444; font-size: 0.78rem;
+  }
+
   @media (max-width: 768px) {
-    header h1 { font-size: 1.3rem; }
-    .tier-label { min-width: 40px; font-size: 1.2rem; padding: 10px 4px; }
-    .recipe-card { font-size: 0.7rem; padding: 4px 8px; }
-    .tier-content { padding: 8px; gap: 4px; }
-    .container { padding: 0; }
+    header h1 { font-size: 1.2rem; }
+    .recipe-row { flex-direction: column; gap: 3px; padding: 6px 8px; }
+    .recipe-name { min-width: unset; max-width: unset; font-size: 0.78rem; }
+    .recipe-details { font-size: 0.68rem; }
+    .tier-header { font-size: 0.85rem; padding: 6px 10px; }
+    .tier-body { padding: 6px 8px; }
+    .legend { font-size: 0.7rem; gap: 8px; }
   }
 </style>
 </head>
@@ -142,101 +164,211 @@
 <div class="container">
   <header>
     <h1>⬡ SATISFACTORY ALTERNATE RECIPE TIERLIST</h1>
-    <p>Every alternate recipe ranked by resource efficiency, production simplification, and long-term value.</p>
+    <p>Every alternate recipe ranked &mdash; with what it produces, what it saves, and when to grab it</p>
   </header>
-  <div class="stats-bar">
-    <strong>112 recipes</strong> &middot; S/A/B/C/D/F tiers &middot; Updated for Satisfactory 1.0
+
+  <div class="legend">
+    <span><span class="dot dot-s"></span> S Game-Changing</span>
+    <span><span class="dot dot-a"></span> A Excellent</span>
+    <span><span class="dot dot-b"></span> B Situational</span>
+    <span><span class="dot dot-c"></span> C Meh</span>
+    <span><span class="dot dot-d"></span> D Avoid</span>
   </div>
+
   <div id="tierlist-root"></div>
-  <div class="note">
-    <h3>How to Use This Tierlist</h3>
-    <p>When a Hard Drive offers you a choice, pick the highest-tier recipe available. If both options are from the same tier, use these tiebreakers:</p>
+
+  <div class="guide">
+    <h3>Priority by Game Stage</h3>
     <ul>
-      <li><strong>Early game (Tiers 0–3):</strong> Prioritize <em>Solid Steel Ingot</em>, <em>Cast Screw</em> or <em>Stitched Iron Plate</em>, <em>Coated Iron Plate</em>, <em>Steel Rod</em>, <em>Iron Wire</em></li>
-      <li><strong>Mid game (Tiers 4–6):</strong> <em>Copper Alloy Ingot</em>, <em>Heavy Encased Frame</em>, <em>Caterium Circuit Board</em>, <em>Fused Wire</em>, <em>Steel Screw</em></li>
-      <li><strong>Late game (Tiers 7–8):</strong> <em>Sloppy Alumina</em>, <em>Pure Aluminium Ingot</em>, <em>Crystal Computer</em>, <em>Diluted Fuel</em>, <em>Recycled Plastic/Rubber</em></li>
-      <li><strong>End game (Nuclear):</strong> <em>Uranium Fuel Unit</em>, <em>Infused Uranium Cell</em>, <em>Oil-Based Diamonds</em></li>
+      <li><strong>Early (Tiers 0–3):</strong> Solid Steel Ingot &gt; Cast Screw / Stitched Iron Plate &gt; Coated Iron Plate &gt; Steel Rod &gt; Iron Wire</li>
+      <li><strong>Mid (Tiers 4–6):</strong> Copper Alloy Ingot &gt; Heavy Encased Frame &gt; Caterium Circuit Board &gt; Fused Wire &gt; Steel Screw</li>
+      <li><strong>Late (Tiers 7–8):</strong> Sloppy Alumina &gt; Pure Aluminium Ingot &gt; Crystal Computer &gt; Diluted Fuel &gt; Recycled Plastic/Rubber</li>
+      <li><strong>End (Nuclear):</strong> Uranium Fuel Unit &gt; Infused Uranium Cell &gt; Oil-Based Diamonds</li>
     </ul>
-    <p style="margin-top:10px;">There are ~115 hard drives and ~106 alternate recipes on the map — you can unlock nearly everything eventually. Grab the S-tier recipes first, then fill in the rest.</p>
+    <p style="margin-top:8px;">~115 hard drives on the map, ~106 alternate recipes. You can unlock nearly everything. Pick S-tier first, fill the rest later.</p>
   </div>
-  <div style="text-align:center;padding:24px 0 12px;color:#555;font-size:0.8rem;border-top:1px solid #1a1a24;margin-top:28px;">
-    vibecoded with ❤️
-  </div>
+
+  <div class="footer">vibecoded with ❤️</div>
 </div>
+
 <script>
-const TIERS = {
-  S: [
-    "Heavy Encased Frame", "Copper Alloy Ingot", "Pure Aluminium Ingot",
-    "Oil-Based Diamonds", "Dark Matter Trap", "Heavy Flexible Frame",
-    "Sloppy Alumina", "Insulated Crystal Oscillator", "Silicon Circuit Board",
-    "Crystal Computer", "Heat-Fused Frame", "Uranium Fuel Unit",
-    "Caterium Circuit Board"
-  ],
-  A: [
-    "Super-State Computer", "Turbo Diamonds", "Caterium Computer",
-    "Electrode Aluminium Scrap", "Diluted Fuel", "Turbo Pressure Motor",
-    "Rubber Concrete", "Plastic AI Limiter", "Steel Screw", "Rigor Motor",
-    "Steel Rod", "Fine Concrete", "Steeled Frame", "Aluminium Beam",
-    "Aluminium Rod", "Turbo Electric Motor", "Electric Motor", "Wet Concrete",
-    "Automated Speed Wiring", "Coke Steel Ingot", "Infused Uranium Cell",
-    "Silicon High-Speed Connector", "Radio Control System", "Solid Steel Ingot",
-    "Heat Exchanger", "Recycled Plastic", "Coated Iron Plate",
-    "Adhered Iron Plate", "Stitched Iron Plate"
-  ],
-  B: [
-    "Insulated Cable", "Coated Cable", "Fused Wire", "Plastic Smart Plating",
-    "Copper Rotor", "Steel Cast Plate", "Nitro Rocket Fuel",
-    "Steamed Copper Sheet", "OC Supercomputer", "Steel Rotor",
-    "Tempered Caterium Ingot", "Cooling Device", "Pure Quartz Crystal",
-    "Electromagnetic Connection Rod", "Quickwire Cable", "Caterium Wire",
-    "Quickwire Stator", "Bolted Frame", "Bolted Iron Plate",
-    "Fine Black Powder", "Heavy Oil Residue", "Flexible Framework",
-    "Turbo Heavy Fuel", "Cast Screw", "Iron Alloy Ingot", "Polymer Resin",
-    "Pure Iron Ingot", "Leached Iron Ingot", "Iron Wire", "Coated Iron Canister"
-  ],
-  C: [
-    "Classic Battery", "Steel Canister", "Fused Quickwire", "Cheap Silica",
-    "Molded Beam", "Alclad Casing", "Basic Iron Ingot", "Distilled Silica",
-    "Fused Quartz Crystal", "Molded Steel Pipe", "Leached Caterium Ingot",
-    "Turbo Blend Fuel", "Electrode Circuit Board", "Pure Caterium Ingot",
-    "Encased Industrial Pipe", "Recycled Rubber", "Compacted Steel Ingot",
-    "Quartz Purification", "Plutonium Fuel Unit", "Pink Diamonds",
-    "Instant Plutonium Cell", "Iron Pipe"
-  ],
-  D: [
-    "Instant Scrap", "Pure Copper Ingot", "Fertile Uranium",
-    "Radio Connection Unit", "Cloudy Diamonds", "Dark-Ion Fuel",
-    "Dark Matter Crystallization", "Petroleum Diamonds", "Leached Copper Ingot",
-    "Tempered Copper Ingot", "Automated Miner", "Biocoal", "Charcoal"
-  ]
+const RECIPES = [
+  // ───── S TIER ─────
+  { tier:"S", name:"Heavy Encased Frame",     item:"Heavy Modular Frame", benefit:"−38% resources, removes complex parts",     tags:["save","simplify"], stage:"mid" },
+  { tier:"S", name:"Copper Alloy Ingot",       item:"Copper Ingot",         benefit:"−23% fewer buildings, huge copper boost", tags:["save","throughput"], stage:"mid" },
+  { tier:"S", name:"Pure Aluminium Ingot",     item:"Aluminium Ingot",      benefit:"−2.5% buildings, −2.1% resources",       tags:["save"], stage:"late" },
+  { tier:"S", name:"Oil-Based Diamonds",       item:"Diamond",              benefit:"−75% diamond cost, game-changer",         tags:["save"], stage:"end" },
+  { tier:"S", name:"Dark Matter Trap",         item:"Dark Matter",          benefit:"−2.3% resources, simpler chain",          tags:["save","simplify"], stage:"end" },
+  { tier:"S", name:"Heavy Flexible Frame",     item:"Heavy Modular Frame",  benefit:"−28% resources, rubber-based",            tags:["save"], stage:"mid" },
+  { tier:"S", name:"Sloppy Alumina",           item:"Alumina Solution",     benefit:"Essential for aluminium scaling",        tags:["simplify"], stage:"late" },
+  { tier:"S", name:"Insulated Crystal Oscillator", item:"Crystal Oscillator", benefit:"−34% resources, gates late production", tags:["save"], stage:"late" },
+  { tier:"S", name:"Silicon Circuit Board",    item:"Circuit Board",        benefit:"−43% resources, highest throughput",     tags:["save","throughput"], stage:"mid" },
+  { tier:"S", name:"Crystal Computer",         item:"Computer",             benefit:"Removes circuit boards from computers",  tags:["simplify"], stage:"late" },
+  { tier:"S", name:"Heat-Fused Frame",         item:"Fused Modular Frame",  benefit:"−8% resources, simpler chain",           tags:["save","simplify"], stage:"late" },
+  { tier:"S", name:"Uranium Fuel Unit",        item:"Uranium Fuel Rod",     benefit:"−29% resources for nuclear",             tags:["save"], stage:"end" },
+  { tier:"S", name:"Caterium Circuit Board",   item:"Circuit Board",        benefit:"−53% resources, no copper sheets",       tags:["save","simplify"], stage:"mid" },
+
+  // ───── A TIER ─────
+  { tier:"A", name:"Super-State Computer",     item:"Supercomputer",        benefit:"−20% resources, best supercomputer alt", tags:["save"], stage:"late" },
+  { tier:"A", name:"Turbo Diamonds",           item:"Diamond",              benefit:"−6% diamond cost, coal-based",           tags:["save"], stage:"end" },
+  { tier:"A", name:"Caterium Computer",        item:"Computer",             benefit:"−20% resources, caterium-based",         tags:["save"], stage:"mid" },
+  { tier:"A", name:"Electrode Aluminium Scrap",item:"Aluminium Scrap",      benefit:"−9.8% resources, oil-based scrap",       tags:["save"], stage:"late" },
+  { tier:"A", name:"Diluted Fuel",             item:"Fuel",                 benefit:"2× fuel output from HOR + water",        tags:["throughput"], stage:"late" },
+  { tier:"A", name:"Turbo Pressure Motor",     item:"Turbo Motor",          benefit:"Efficient turbo motor production",       tags:["save"], stage:"late" },
+  { tier:"A", name:"Rubber Concrete",          item:"Concrete",             benefit:"−4% resources, rubber-based",            tags:["save"], stage:"mid" },
+  { tier:"A", name:"Plastic AI Limiter",       item:"AI Limiter",           benefit:"−35% resources, plastic-based",          tags:["save"], stage:"mid" },
+  { tier:"A", name:"Steel Screw",              item:"Screw",                benefit:"260/min from 5 beams, replaces screw bank", tags:["throughput","simplify"], stage:"mid" },
+  { tier:"A", name:"Rigor Motor",              item:"Motor",                benefit:"Clean recipe, saves components",         tags:["simplify"], stage:"mid" },
+  { tier:"A", name:"Steel Rod",                item:"Iron Rod",             benefit:"48/min vs 15 — 3.2× output",             tags:["throughput","save"], stage:"early" },
+  { tier:"A", name:"Fine Concrete",            item:"Concrete",             benefit:"−3.8% resources, saves limestone",       tags:["save"], stage:"early" },
+  { tier:"A", name:"Steeled Frame",            item:"Modular Frame",        benefit:"−25% resources, best basic frame alt",   tags:["save"], stage:"mid" },
+  { tier:"A", name:"Aluminium Beam",           item:"Steel Beam",           benefit:"−46% beam cost from aluminium",          tags:["save"], stage:"late" },
+  { tier:"A", name:"Aluminium Rod",            item:"Iron Rod",             benefit:"−46% rod cost from aluminium",           tags:["save"], stage:"late" },
+  { tier:"A", name:"Turbo Electric Motor",     item:"Turbo Motor",          benefit:"End-game motor efficiency",              tags:["save"], stage:"end" },
+  { tier:"A", name:"Electric Motor",           item:"Motor",                benefit:"Slightly better than standard",          tags:["save"], stage:"mid" },
+  { tier:"A", name:"Wet Concrete",             item:"Concrete",             benefit:"Good throughput boost with water",       tags:["throughput"], stage:"mid" },
+  { tier:"A", name:"Automated Speed Wiring",   item:"Automated Wiring",     benefit:"Simplifies automated wiring chain",      tags:["simplify"], stage:"mid" },
+  { tier:"A", name:"Coke Steel Ingot",         item:"Steel Ingot",          benefit:"−25% resources, uses petroleum coke",    tags:["save"], stage:"mid" },
+  { tier:"A", name:"Infused Uranium Cell",     item:"Encased Uranium Cell", benefit:"−26% resources for nuclear cells",        tags:["save"], stage:"end" },
+  { tier:"A", name:"Silicon High-Speed Connector", item:"High-Speed Connector", benefit:"−34% resources, silica-based",        tags:["save"], stage:"late" },
+  { tier:"A", name:"Radio Control System",     item:"Radio Control Unit",   benefit:"Better RCU production chain",            tags:["save"], stage:"late" },
+  { tier:"A", name:"Solid Steel Ingot",        item:"Steel Ingot",          benefit:"60/min vs 45 — 33% more steel",          tags:["throughput","save"], stage:"early" },
+  { tier:"A", name:"Heat Exchanger",           item:"Heat Sink",            benefit:"Better heat sink production",            tags:["save"], stage:"late" },
+  { tier:"A", name:"Recycled Plastic",         item:"Plastic",              benefit:"Oil loop efficiency with rubber alt",    tags:["save"], stage:"late" },
+  { tier:"A", name:"Coated Iron Plate",        item:"Iron Plate",           benefit:"3.75× output, −57% iron per plate",      tags:["throughput","save"], stage:"early" },
+  { tier:"A", name:"Adhered Iron Plate",       item:"Reinforced Iron Plate",benefit:"Zero screws needed, −50% resources",     tags:["simplify","save"], stage:"early" },
+  { tier:"A", name:"Stitched Iron Plate",      item:"Reinforced Iron Plate",benefit:"No screws, uses wire, −31% resources",    tags:["simplify","save"], stage:"early" },
+
+  // ───── B TIER ─────
+  { tier:"B", name:"Insulated Cable",          item:"Cable",                benefit:"−32% cable cost, rubber-based",          tags:["save"], stage:"mid" },
+  { tier:"B", name:"Coated Cable",             item:"Cable",                benefit:"Saves copper, uses plastic",             tags:["save"], stage:"mid" },
+  { tier:"B", name:"Fused Wire",               item:"Wire",                 benefit:"−53% copper, 3× output (with caterium)", tags:["throughput","save"], stage:"mid" },
+  { tier:"B", name:"Plastic Smart Plating",    item:"Smart Plating",        benefit:"Space elevator part, plastic-based",     tags:[], stage:"early" },
+  { tier:"B", name:"Copper Rotor",             item:"Rotor",                benefit:"Alternative rotor from copper only",     tags:["simplify"], stage:"mid" },
+  { tier:"B", name:"Steel Cast Plate",         item:"Iron Plate",           benefit:"−33% resources when steel is flowing",   tags:["save"], stage:"mid" },
+  { tier:"B", name:"Nitro Rocket Fuel",        item:"Rocket Fuel",          benefit:"Best rocket fuel recipe (late-game)",     tags:["throughput"], stage:"end" },
+  { tier:"B", name:"Steamed Copper Sheet",     item:"Copper Sheet",         benefit:"Uses water, good throughput",            tags:["throughput"], stage:"mid" },
+  { tier:"B", name:"OC Supercomputer",         item:"Supercomputer",        benefit:"Alternative supercomputer recipe",       tags:[], stage:"late" },
+  { tier:"B", name:"Steel Rotor",              item:"Rotor",                benefit:"Better rotor production from steel",     tags:["save"], stage:"mid" },
+  { tier:"B", name:"Tempered Caterium Ingot",  item:"Caterium Ingot",       benefit:"Caterium from petroleum coke",           tags:[], stage:"mid" },
+  { tier:"B", name:"Cooling Device",           item:"Cooling System",       benefit:"Alternative heat sink chain",            tags:[], stage:"late" },
+  { tier:"B", name:"Pure Quartz Crystal",      item:"Quartz Crystal",       benefit:"Quartz efficiency with water",           tags:["save"], stage:"mid" },
+  { tier:"B", name:"Electromagnetic Connection Rod", item:"Electromagnetic Control Rod", benefit:"No AI limiters needed", tags:["simplify"], stage:"late" },
+  { tier:"B", name:"Quickwire Cable",          item:"Cable",                benefit:"Cable from quickwire, no copper wire",   tags:["simplify"], stage:"mid" },
+  { tier:"B", name:"Caterium Wire",            item:"Wire",                 benefit:"Wire from caterium only",                tags:[], stage:"mid" },
+  { tier:"B", name:"Quickwire Stator",         item:"Stator",               benefit:"Stator from quickwire",                  tags:["simplify"], stage:"mid" },
+  { tier:"B", name:"Bolted Frame",             item:"Modular Frame",        benefit:"Frame from screws (only if screw-rich)", tags:[], stage:"mid" },
+  { tier:"B", name:"Bolted Iron Plate",        item:"Reinforced Iron Plate",benefit:"RIP from screws, only if excess screws",  tags:[], stage:"early" },
+  { tier:"B", name:"Fine Black Powder",        item:"Black Powder",         benefit:"Nobelisks, better sulfur efficiency",    tags:["save"], stage:"early" },
+  { tier:"B", name:"Heavy Oil Residue",        item:"Heavy Oil Residue",    benefit:"Enables the oil-to-fuel loop",           tags:["simplify"], stage:"late" },
+  { tier:"B", name:"Flexible Framework",       item:"Versatile Framework",  benefit:"Space elevator part, rubber-based",      tags:[], stage:"mid" },
+  { tier:"B", name:"Turbo Heavy Fuel",         item:"Turbofuel",            benefit:"Turbofuel from heavy oil residue",       tags:[], stage:"late" },
+  { tier:"B", name:"Cast Screw",               item:"Screw",                benefit:"Skips rods entirely, great early-game",  tags:["simplify"], stage:"early" },
+  { tier:"B", name:"Iron Alloy Ingot",         item:"Iron Ingot",           benefit:"−33% iron ore with copper in foundry",   tags:["save"], stage:"early" },
+  { tier:"B", name:"Polymer Resin",            item:"Polymer Resin",        benefit:"Byproduct processing from oil",          tags:[], stage:"mid" },
+  { tier:"B", name:"Pure Iron Ingot",          item:"Iron Ingot",           benefit:"−15% iron ore (needs water)",            tags:["save"], stage:"mid" },
+  { tier:"B", name:"Leached Iron Ingot",       item:"Iron Ingot",           benefit:"−30% iron ore (uses sulfuric acid)",     tags:["save"], stage:"late" },
+  { tier:"B", name:"Iron Wire",                item:"Wire",                 benefit:"Wire from iron when copper is scarce",   tags:["save"], stage:"early" },
+  { tier:"B", name:"Coated Iron Canister",     item:"Empty Canister",       benefit:"Canisters from plastic, saves steel",    tags:["save"], stage:"mid" },
+
+  // ───── C TIER ─────
+  { tier:"C", name:"Classic Battery",          item:"Battery",              benefit:"Not better than standard battery",        tags:[], stage:"late" },
+  { tier:"C", name:"Steel Canister",           item:"Empty Canister",       benefit:"Heavy steel canisters, not great",        tags:[], stage:"mid" },
+  { tier:"C", name:"Fused Quickwire",          item:"Quickwire",            benefit:"+11% heavier but better throughput",      tags:["throughput"], stage:"mid" },
+  { tier:"C", name:"Cheap Silica",             item:"Silica",               benefit:"Saves quartz, costs limestone",           tags:[], stage:"mid" },
+  { tier:"C", name:"Molded Beam",              item:"Steel Beam",           benefit:"Steel beams from concrete",               tags:[], stage:"mid" },
+  { tier:"C", name:"Alclad Casing",            item:"Aluminium Casing",     benefit:"Alternative casing recipe",               tags:[], stage:"late" },
+  { tier:"C", name:"Basic Iron Ingot",         item:"Iron Ingot",           benefit:"Uses limestone — not efficient",          tags:[], stage:"early" },
+  { tier:"C", name:"Distilled Silica",         item:"Silica",               benefit:"Complex silica from quartz + water",      tags:[], stage:"mid" },
+  { tier:"C", name:"Fused Quartz Crystal",     item:"Quartz Crystal",       benefit:"Quartz from caterium",                    tags:[], stage:"mid" },
+  { tier:"C", name:"Molded Steel Pipe",        item:"Steel Pipe",           benefit:"Steel pipes from concrete",               tags:[], stage:"mid" },
+  { tier:"C", name:"Leached Caterium Ingot",   item:"Caterium Ingot",       benefit:"Uses sulfuric acid, small gain",           tags:[], stage:"late" },
+  { tier:"C", name:"Turbo Blend Fuel",         item:"Turbofuel",            benefit:"Complex setup, dense turbofuel",           tags:["throughput"], stage:"late" },
+  { tier:"C", name:"Electrode Circuit Board",  item:"Circuit Board",        benefit:"Board from oil byproducts",               tags:[], stage:"mid" },
+  { tier:"C", name:"Pure Caterium Ingot",      item:"Caterium Ingot",       benefit:"+33% more caterium ore used (worse)",     tags:[], stage:"mid" },
+  { tier:"C", name:"Encased Industrial Pipe",  item:"Encased Industrial Beam", benefit:"Decent early, overrated later",         tags:[], stage:"early" },
+  { tier:"C", name:"Recycled Rubber",          item:"Rubber",               benefit:"Only useful in rubber loops",             tags:[], stage:"late" },
+  { tier:"C", name:"Compacted Steel Ingot",    item:"Steel Ingot",          benefit:"Needs compacted coal, marginal",           tags:[], stage:"mid" },
+  { tier:"C", name:"Quartz Purification",      item:"Quartz Crystal",       benefit:"Not worth the water cost",                tags:[], stage:"mid" },
+  { tier:"C", name:"Plutonium Fuel Unit",      item:"Plutonium Fuel Rod",   benefit:"Only for plutonium sink setups",           tags:[], stage:"end" },
+  { tier:"C", name:"Pink Diamonds",            item:"Diamond",              benefit:"Diamond alternative, slightly better",     tags:[], stage:"end" },
+  { tier:"C", name:"Instant Plutonium Cell",   item:"Encased Plutonium Cell", benefit:"Only for plutonium power builds",       tags:[], stage:"end" },
+  { tier:"C", name:"Iron Pipe",                item:"Steel Pipe",           benefit:"Pipe from iron — memey but works",         tags:[], stage:"early" },
+
+  // ───── D TIER ─────
+  { tier:"D", name:"Instant Scrap",             item:"Aluminium Scrap",      benefit:"Worse aluminium scrap, more complex",     tags:[], stage:"late" },
+  { tier:"D", name:"Pure Copper Ingot",         item:"Copper Ingot",         benefit:"+12.5% power, net loss on buildings",     tags:[], stage:"mid" },
+  { tier:"D", name:"Fertile Uranium",           item:"Non-fissile Uranium",  benefit:"Makes nuclear worse, not better",         tags:[], stage:"end" },
+  { tier:"D", name:"Radio Connection Unit",     item:"Radio Control Unit",   benefit:"Makes RCUs more expensive",               tags:[], stage:"late" },
+  { tier:"D", name:"Cloudy Diamonds",           item:"Diamond",              benefit:"Resource hog, avoid",                     tags:[], stage:"end" },
+  { tier:"D", name:"Dark-Ion Fuel",             item:"Fuel",                 benefit:"Complex, negative overall savings",        tags:[], stage:"end" },
+  { tier:"D", name:"Dark Matter Crystallization", item:"Dark Matter Crystal", benefit:"Not worth the cost",                    tags:[], stage:"end" },
+  { tier:"D", name:"Petroleum Diamonds",        item:"Diamond",              benefit:"Resource-heavy, inefficient",             tags:[], stage:"end" },
+  { tier:"D", name:"Leached Copper Ingot",      item:"Copper Ingot",         benefit:"Sulfuric acid waste for small gain",      tags:[], stage:"late" },
+  { tier:"D", name:"Tempered Copper Ingot",     item:"Copper Ingot",         benefit:"Terrible efficiency, avoid",              tags:[], stage:"mid" },
+  { tier:"D", name:"Automated Miner",           item:"Portable Miner",       benefit:"Convenience only, no efficiency gain",    tags:[], stage:"early" },
+  { tier:"D", name:"Biocoal",                   item:"Coal",                 benefit:"Biomass to coal — just mine coal",        tags:[], stage:"early" },
+  { tier:"D", name:"Charcoal",                  item:"Coal",                 benefit:"Wood to coal — worse than mining",        tags:[], stage:"early" },
+];
+
+const TIER_ORDER = ["S","A","B","C","D"];
+const TIER_LABELS = {
+  S: { name:"Game-Changing", desc:"Fundamentally improve a major production chain" },
+  A: { name:"Excellent", desc:"Strong upgrade you'll use in most playthroughs" },
+  B: { name:"Solid & Situational", desc:"Good when the situation calls for it" },
+  C: { name:"Meh", desc:"Better than default in some niche scenarios" },
+  D: { name:"Avoid", desc:"Worse than default or only convenience value" }
 };
-const TIER_NAMES = {
-  S: "Game-Changing", A: "Excellent", B: "Solid & Situational",
-  C: "Meh", D: "Avoid", F: "Never Use"
-};
-const TIER_ORDER = ["S","A","B","C","D","F"];
 
 function render() {
   const root = document.getElementById('tierlist-root');
   TIER_ORDER.forEach(letter => {
-    const items = TIERS[letter] || [];
+    const items = RECIPES.filter(r => r.tier === letter);
     if (!items.length) return;
-    const row = document.createElement('div');
-    row.className = 'tier-row ' + letter;
-    const label = document.createElement('div');
-    label.className = 'tier-label';
-    label.textContent = letter;
-    const content = document.createElement('div');
-    content.className = 'tier-content';
-    items.sort().forEach(name => {
-      const card = document.createElement('span');
-      card.className = 'recipe-card ' + letter + '-border';
-      card.textContent = name;
-      content.appendChild(card);
+
+    const block = document.createElement('div');
+    block.className = 'tier-block ' + letter;
+
+    const header = document.createElement('div');
+    header.className = 'tier-header';
+    header.innerHTML = `
+      <span class="label">${letter}</span>
+      <span>${TIER_LABELS[letter].name}</span>
+      <span class="tier-desc">${TIER_LABELS[letter].desc}</span>
+      <span class="count">${items.length}</span>
+    `;
+
+    const body = document.createElement('div');
+    body.className = 'tier-body';
+
+    items.sort((a, b) => a.name.localeCompare(b.name));
+    items.forEach(r => {
+      const row = document.createElement('div');
+      row.className = 'recipe-row';
+
+      const stageMap = { early:"Early", mid:"Mid", late:"Late", end:"End" };
+      const stageTag = stageMap[r.stage] ? `<span class="tag tag-${r.stage}">${stageMap[r.stage]}</span>` : '';
+
+      const tagsHtml = (r.tags || []).map(t => {
+        const label = t === 'save' ? 'save' : t === 'simplify' ? 'simplify' : t === 'throughput' ? 'throughput' : t;
+        return `<span class="tag tag-${t}">${label}</span>`;
+      }).join('');
+
+      row.innerHTML = `
+        <div class="recipe-name">${r.name}</div>
+        <div class="recipe-details">
+          <span class="detail produces">Produces: <strong>${r.item}</strong></span>
+          <span class="detail">${r.benefit}</span>
+          ${stageTag}
+          ${tagsHtml}
+        </div>
+      `;
+      body.appendChild(row);
     });
-    row.appendChild(label);
-    row.appendChild(content);
-    root.appendChild(row);
+
+    block.appendChild(header);
+    block.appendChild(body);
+    root.appendChild(block);
   });
 }
 render();
