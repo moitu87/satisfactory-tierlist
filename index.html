@@ -44,6 +44,14 @@
   #cmp-panel { display:none; margin-top:10px; padding:12px; background:#14141e; border:1px solid #2a2a3e; border-radius:5px; }
   #cmp-panel.show { display:block; }
   #cmp-panel h3 { font-size:0.85rem; color:#4fc3f7; margin-bottom:8px; }
+  #best { display:none; margin-bottom:8px; padding:10px 14px; background:rgba(79,195,247,0.06); border:1px solid #4fc3f7; border-radius:5px; }
+  #best.show { display:block; }
+  #best .top { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  #best .top h2 { font-size:1rem; color:#e0e0ec; }
+  #best .bp { font-size:0.8rem; color:#4fc3f7; font-weight:600; margin:4px 0; }
+  #best .bt { font-size:0.7rem; color:#aaa; margin-top:2px; }
+  #best .ot { font-size:0.7rem; color:#7878a0; margin-top:4px; }
+  #best .ot span { display:inline-block; margin-right:6px; }
   .cmp-grid { display:grid; gap:10px; }
   .cmp-grid.c2 { grid-template-columns:1fr 1fr; }
   .cmp-grid.c3 { grid-template-columns:1fr 1fr 1fr; }
@@ -70,6 +78,7 @@
     <button onclick="clearSel()">Clear</button>
     <span class="c" id="sel-count">0 selected</span>
   </div>
+  <div id="best"></div>
   <div id="root"></div>
   <div id="cmp-panel"><h3>Compare</h3><div id="cmp-grid" class="cmp-grid"></div></div>
   <div class="guide">
@@ -303,13 +312,65 @@ function updatePanel() {
   });
 }
 
+// Build item → recipes map for best-pick
+const IM = {};
+D.forEach(r => {
+  const key = r.i.toLowerCase();
+  if (!IM[key]) IM[key] = [];
+  IM[key].push(r);
+});
+const TIER = {S:0,A:1,B:2,C:3,D:4};
+Object.keys(IM).forEach(k => {
+  IM[k].sort((a,b) => TIER[a.t]-TIER[b.t] || b.sc-a.sc);
+});
+
 function search(q) {
   q = q.toLowerCase().trim();
   const items = document.querySelectorAll('.it');
   let count = 0;
+  const bpEl = document.getElementById('best');
+
+  // Find best-pick match: search query matches what a recipe produces
+  let best = null;
+  if (q) {
+    const matches = Object.keys(IM).filter(k => k.includes(q));
+    if (matches.length === 1) {
+      const recs = IM[matches[0]];
+      best = { item: recs[0].i, best: recs[0], others: recs.slice(1) };
+    } else if (matches.length > 1) {
+      // Multiple items match — pick the most relevant (shortest key, exact-ish)
+      matches.sort((a,b) => a.length - b.length);
+      const recs = IM[matches[0]];
+      best = { item: recs[0].i, best: recs[0], others: recs.slice(1) };
+    }
+  }
+
+  // Render best-pick panel
+  if (best) {
+    // Escape for HTML
+    const esc = s => s.replace(/[&<>"]/g, function(m) {
+      if (m==='&') return '&amp;'; if (m==='<') return '&lt;'; if (m==='>') return '&gt;'; if (m==='"') return '&quot;';
+    });
+    const r = best.best;
+    const tierClass = 't-'+r.t.toLowerCase();
+    const stageMap = {early:'Early',mid:'Mid',late:'Late',end:'End'};
+    const tagHtml = r.g.map(g => '<span class="tag '+tierClass+'">'+g+'</span>').join(' ');
+    const othersHtml = best.others.length ? '<div class="ot">Others: '+best.others.map(o =>
+      '<span class="tag t-'+o.t.toLowerCase()+'">'+o.t+'</span> '+esc(o.n)+' ('+o.sc+')'
+    ).join(' &middot; ')+'</div>' : '';
+    const stageLabel = stageMap[r.s] || r.s;
+    bpEl.innerHTML =
+      '<div class="top"><span class="tag '+tierClass+'">'+r.t+'</span><h2>'+esc(r.i)+'</h2></div>' +
+      '<div class="bp">Best: '+esc(r.n)+' &mdash; '+stageLabel+' (score '+r.sc+')</div>' +
+      '<div class="bt">'+esc(r.b)+' '+tagHtml+'</div>' +
+      othersHtml;
+    bpEl.classList.add('show');
+  } else {
+    bpEl.classList.remove('show');
+  }
+
   items.forEach(el => {
     const name = el.querySelector('span:nth-child(2)');
-    const dtl = el.querySelector('.dtl');
     const txt = (el.textContent || '').toLowerCase();
     if (!q) {
       el.classList.remove('hide');
